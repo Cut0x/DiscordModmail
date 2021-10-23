@@ -35,7 +35,8 @@ client.on("messageCreate", async message => {
     const parentID = "ID_CATEGORIE";
     const guildID = "ID_SERVEUR";
     const supportID = "ID_ROLE_TICKET";
-    const color = "#ff7f27";
+    const color = "#ff7f27"; // Pour la couleur, je vous conseil d'aller sur https://color.cutox.tech/ !
+    const sendMessageReact = "<:NAME_EMOJI:ID_EMOJI>"; // Vous pouvez aussi mettre un émoji par défaut comme ✅
 
     if (message.channel.type === "DM") {
         if (db.get(`ticket_${message.author.id}`) === null) {
