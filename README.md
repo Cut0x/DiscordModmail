@@ -3,7 +3,7 @@ Bot ticket par les messages privé
 
 # Modules
 ```
-npm install --save discord.js
+npm install --save discord.js quick.db
 ```
 
 # Config -> `./Data/config.js`
