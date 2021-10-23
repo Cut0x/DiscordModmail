@@ -23,7 +23,7 @@ client.once("ready", async () => {
     client.user.setPresence({
         activities: [
             {
-                name: 'Template bot slash'
+                name: 'MP MOI !'
             }
         ],
         status: 'dnd'
