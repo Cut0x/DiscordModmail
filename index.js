@@ -23,7 +23,7 @@ client.once("ready", async () => {
     client.user.setPresence({
         activities: [
             {
-                name: 'MP MOI !'
+                name: 'Fait par Cut0x#0001'
             }
         ],
         status: 'dnd'
