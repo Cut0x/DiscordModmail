@@ -20,7 +20,7 @@ client.sett = require("./Data/config");
 client.once("ready", async () => {
     console.log(`Je suis prêt pour un total de ${db.get(`ticket_count`) ?? 0} ticket ouvert.`)
 
-    client.user.setActivity('Créé par Cut0x -> https://cutox.tech/', {
+    client.user.setActivity('Créé par Cut0x#0001', {
         type: "PLAYING"
     });
     
