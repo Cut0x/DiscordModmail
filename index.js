@@ -128,7 +128,7 @@ client.on("messageCreate", async message => {
         if (db.get(`ticket_${message.channel.id}`) === null) return;
     
         try {
-            const userTicket = client.users.cache.get(db.get(`message.channel.id`)):
+            const userTicket = client.users.cache.get(db.get(`message.channel.id`));
             
             if (message.content.length > 4096) return message.reply(":x: Votre message est trop lourd ! *(Moins de `4096` caractères !)*")
             
