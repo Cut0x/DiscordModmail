@@ -57,45 +57,51 @@ client.on("messageCreate", async message => {
                     }
                 ]
             }).then(async channel => {
-                db.set(`ticket_${message.author.id}`, true)
-                db.add(`ticket_open`, 1)
-                
-                const embed = new MessageEmbed()
-                    .setColor(color)
-                    .setTitle("Nouveau ticket !")
-                    .setThumbnail("https://cdn.discordapp.com/attachments/868118913639133184/901195669493153812/337796_63b6038cf2068f8e6bfccef15c13ebad.png")
-                    .setAuthor(`${message.author.username} (${message.author.id})`, message.author.avatarURL({ dynamic: true, format: "webp" }))
-                    .setFooter("Cliquez sur ❌ pour fermet le ticket.")
-                    .addField(":bust_in_silhouette: Auteur :", `Ticket ouvert par **${message.author.username}**.`)
-                    .addField("💬 Message :", `\` -> \` ${message.content}`)
-                const msg = await channel.send({ embeds: [ embed ] });
+                try {
+                    db.set(`ticket_${message.author.id}`, true)
+                    db.add(`ticket_open`, 1)
+                    
+                    const embed = new MessageEmbed()
+                        .setColor(color)
+                        .setTitle("Nouveau ticket !")
+                        .setThumbnail("https://cdn.discordapp.com/attachments/868118913639133184/901195669493153812/337796_63b6038cf2068f8e6bfccef15c13ebad.png")
+                        .setAuthor(`${message.author.username} (${message.author.id})`, message.author.avatarURL({ dynamic: true, format: "webp" }))
+                        .setFooter("Cliquez sur ❌ pour fermet le ticket.")
+                        .addField(":bust_in_silhouette: Auteur :", `Ticket ouvert par **${message.author.username}**.`)
+                        .addField("💬 Message :", `\` -> \` ${message.content}`)
+                    const msg = await channel.send({ embeds: [ embed ] });
 
-                db.set(`ticket_${message.author.id}_channel`, channel.id)
-                db.set(`ticket_${channel.id}`, message.author.id)
-                db.set(`ticket_${channel.id}_message`, msg.id)
+                    db.set(`ticket_${message.author.id}_channel`, channel.id)
+                    db.set(`ticket_${channel.id}`, message.author.id)
+                    db.set(`ticket_${channel.id}_message`, msg.id)
 
-                msg.react("❌");
+                    message.react(sendMessageReact);
+                    msg.react("❌");
 
-                client.on('messageReactionAdd', async (reaction, user) => {
+                    client.on('messageReactionAdd', async (reaction, user) => {
     
-                    if (user.bot || reaction.message.id !== db.get(`ticket_${channel.id}_message`)) return;
+                        if (user.bot || reaction.message.id !== db.get(`ticket_${channel.id}_message`)) return;
 
-                    if (reaction.emoji.name === "❌") {
-                        reaction.remove("❌")
-                        db.delete(`ticket_${message.author.id}`)
-                        db.subtract(`ticket_open`, 1)
+                        if (reaction.emoji.name === "❌") {
+                            reaction.remove("❌")
+                            db.delete(`ticket_${message.author.id}`)
+                            db.subtract(`ticket_open`, 1)
 
-                        const reponse2 = new MessageEmbed()
-                            .setColor(color)
-                            .setDescription(":gear: Votre ticket a été fermé par **" + user.username + "**.\n:warning: Merci de ne pas répondre à ce message !")
-                        const userTicket = client.users.cache.get(db.get(`ticket_${reaction.message.channel.id}`)).send({ embeds: [ reponse2 ] })
+                            const reponse2 = new MessageEmbed()
+                                .setColor(color)
+                                .setDescription(":gear: Votre ticket a été fermé par **" + user.username + "**.\n:warning: Merci de ne pas répondre à ce message !")
+                            const userTicket = client.users.cache.get(db.get(`ticket_${reaction.message.channel.id}`)).send({ embeds: [ reponse2 ] })
 
-                        const reponse = new MessageEmbed()
-                            .setColor(color)
-                            .setDescription(":gear: Vous avez fermé ce ticket.")
-                        reaction.message.channel.send({ embeds: [ reponse ] })
-                    }
-                });
+                            const reponse = new MessageEmbed()
+                                .setColor(color)
+                                .setDescription(":gear: Vous avez fermé ce ticket.")
+                            reaction.message.channel.send({ embeds: [ reponse ] })
+                        }
+                    });
+                } catch (error) {
+                    message.react("❌");
+                    console.log("une erreur est survenue")
+                }
             })
         } else {
 
@@ -103,28 +109,40 @@ client.on("messageCreate", async message => {
 
             const messageContent = message.content;
 
-            const mes = new MessageEmbed()
-                .setColor(color)
-                .setAuthor("Nouveau message !", message.author.avatarURL({ dynamic: true }))
-                .setDescription(`${messageContent}`)
-                .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
-            client.guilds.cache.get(guildID).channels.cache.get(db.get(`ticket_${message.author.id}_channel`)).send({ embeds: [ mes ] })
+            try {
+                message.react(sendMessageReact);
+                
+                const mes = new MessageEmbed()
+                    .setColor(color)
+                    .setAuthor("Nouveau message !", message.author.avatarURL({ dynamic: true }))
+                    .setDescription(`${messageContent}`)
+                    .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
+                client.guilds.cache.get(guildID).channels.cache.get(db.get(`ticket_${message.author.id}_channel`)).send({ embeds: [ mes ] })
+            } catch (error) {
+                message.react("❌");
+                console.log("une erreur est survenue")
+            }
         }
     } else {
 
         if (db.get(`ticket_${message.channel.id}`) === null) return;
-
-        const userTicket = client.users.cache.get(db.get(`ticket_${message.channel.id}`));
-
-        if (message.content.length > 4096) return message.reply(":x: Votre message est trop lourd ! *(Moins de `4096` caractères !)*")
-
-        const mes = new MessageEmbed()
-            .setColor(color)
-            .setAuthor("Nouveau message !", message.author.avatarURL({ dynamic: true }))
-            .setDescription(`${message.content}`)
-            .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
-        userTicket.send({ embeds: [ mes ] }).catch(error => {
-            message.channel.send(":x: L'utilisateur visé a fermé ses messages privé.")
-        })
+    
+        try {
+            const userTicket = client.users.cache.get(db.get(`message.channel.id`)):
+            
+            if (message.content.length > 4096) return message.reply(":x: Votre message est trop lourd ! *(Moins de `4096` caractères !)*")
+            
+            message.react(sendMessageReact);
+            
+            const mes = new MessageEmbed()
+                .setColor(color)
+                .setAuthor("Nouveau message !", message.author.avatarURL({ dynamic: true }))
+                .setDescription(`${message.content}`)
+                .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
+            userTicket.send({ embeds: [ mes ] })
+        } catch (error) {
+            message.react("❌");
+            console.log("une erreur est survenue")
+        }
     }
 });
