@@ -123,6 +123,8 @@ client.on("messageCreate", async message => {
             .setAuthor("Nouveau message !", message.author.avatarURL({ dynamic: true }))
             .setDescription(`${message.content}`)
             .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
-        userTicket.send({ embeds: [ mes ] })
+        userTicket.send({ embeds: [ mes ] }).catch(error => {
+            message.channel.send(":x: L'utilisateur visé a fermé ses messages privé.")
+        })
     }
 });
