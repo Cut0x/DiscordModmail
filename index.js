@@ -100,7 +100,7 @@ client.on("messageCreate", async message => {
                     });
                 } catch (error) {
                     message.react("❌");
-                    console.log("une erreur est survenue")
+                    console.log("[1] une erreur est survenue")
                 }
             })
         } else {
@@ -120,7 +120,7 @@ client.on("messageCreate", async message => {
                 client.guilds.cache.get(guildID).channels.cache.get(db.get(`ticket_${message.author.id}_channel`)).send({ embeds: [ mes ] })
             } catch (error) {
                 message.react("❌");
-                console.log("une erreur est survenue")
+                console.log("[2] une erreur est survenue")
             }
         }
     } else {
@@ -142,7 +142,7 @@ client.on("messageCreate", async message => {
             userTicket.send({ embeds: [ mes ] })
         } catch (error) {
             message.react("❌");
-            console.log("une erreur est survenue")
+            console.log("[3] une erreur est survenue")
         }
     }
 });
