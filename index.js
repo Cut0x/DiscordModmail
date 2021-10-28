@@ -131,18 +131,19 @@ client.on("messageCreate", async message => {
             const userTicket = client.users.cache.get(db.get(`message.channel.id`));
             
             if (message.content.length > 4096) return message.reply(":x: Votre message est trop lourd ! *(Moins de `4096` caractères !)*")
-            
-            message.react(sendMessageReact);
-            
+                        
             const mes = new MessageEmbed()
                 .setColor(color)
                 .setAuthor("Nouveau message !", message.author.avatarURL({ dynamic: true }))
                 .setDescription(`${message.content}`)
                 .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
             userTicket.send({ embeds: [ mes ] })
+
+            message.react(sendMessageReact);
         } catch (error) {
             message.react("❌");
-            console.log("[3] une erreur est survenue")
+            console.log("[3] une erreur est survenue");
+            console.error(error);
         }
     }
 });
