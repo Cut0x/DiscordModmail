@@ -113,7 +113,7 @@ client.on("messageCreate", async message => {
             try {                
                 const mes = new MessageEmbed()
                     .setColor(color)
-                    .setAuthor("Nouveau message !", message.author.avatarURL({ dynamic: true }))
+                    .setAuthor("Nouveau message !", client.user.avatarURL({ dynamic: true }))
                     .setDescription(`${messageContent}`)
                     .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
                 client.guilds.cache.get(guildID).channels.cache.get(db.get(`ticket_${message.author.id}_channel`)).send({ embeds: [ mes ] })
@@ -136,7 +136,7 @@ client.on("messageCreate", async message => {
                         
             const mes = new MessageEmbed()
                 .setColor(color)
-                .setAuthor("Nouveau message !", message.author.avatarURL({ dynamic: true }))
+                    .setAuthor("Nouveau message !", client.user.avatarURL({ dynamic: true }))
                 .setDescription(`${message.content}`)
                 .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
             userTicket.send({ embeds: [ mes ] })
