@@ -42,10 +42,20 @@ client.on("messageCreate", async message => {
     const supportID = "ID_ROLE_TICKET";
     const color = "#ff7f27"; // Pour la couleur, je vous conseil d'aller sur https://color.cutox.tech/ !
     const sendMessageReact = "<:NAME_EMOJI:ID_EMOJI>"; // Vous pouvez aussi mettre un émoji par défaut comme ✅
-
+    let lettres = [
+        "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+        "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z  "
+    ];
+    const id_ticket = lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)];
+    
     if (message.channel.type === "DM") {
+        const erreur_image_send = new MessageEmbed()
+            .setColor("RED")
+            .setDescription(":x: Pour envoyer des images, merci d'envoyer un lien **Discord** ([cdn.discord.com/..etc..](https://discord.com)")
+        if (!lettres.includes(message.content)) return message.reply({ embeds: [ erreur_image_send ] });
+        
         if (db.get(`ticket_${message.author.id}`) === null) {
-            client.guilds.cache.get(guildID).channels.create(`ticket-${message.author.id}`, {
+            client.guilds.cache.get(guildID).channels.create(`ticket-${id_ticket}`, {
                 type: "GUILD_TEXT",
                 parent: parentID,
                 permissionOverwrites: [
@@ -88,6 +98,9 @@ client.on("messageCreate", async message => {
                             reaction.remove("❌")
                             db.delete(`ticket_${message.author.id}`)
                             db.subtract(`ticket_open`, 1)
+                            db.delete(`ticket_${message.author.id}_channel`)
+                            db.delete(`ticket_${channel.id}`)
+                            db.delete(`ticket_${channel.id}_message`)
 
                             const reponse2 = new MessageEmbed()
                                 .setColor(color)
