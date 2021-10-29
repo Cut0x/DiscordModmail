@@ -1,5 +1,7 @@
 // Créé par Cut0x -> https://cutox.tech/
 
+// modification au niveau du nom du salon et de la suppression dans la base de donner.
+
 const { Discord, Client, Intents, Permissions, MessageEmbed } = require("discord.js");
 const client = new Client({
     intents: [
