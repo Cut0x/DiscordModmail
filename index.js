@@ -74,7 +74,7 @@ client.on("messageCreate", async message => {
                         .setThumbnail("https://cdn.discordapp.com/attachments/868118913639133184/901195669493153812/337796_63b6038cf2068f8e6bfccef15c13ebad.png")
                         .setAuthor(`${message.author.username} (${message.author.id})`, message.author.avatarURL({ dynamic: true, format: "webp" }))
                         .setFooter("Cliquez sur ❌ pour fermet le ticket.")
-                        .addField(":bust_in_silhouette: Auteur :", `Ticket ouvert par **${message.author.username}**.`)
+                        .addField(":bust_in_silhouette: Ticket :", `Ticket de ${message.author} (**${message.author.username}**).\nL'ID du ticket est \`${id_ticket}\`.`)
                         .addField("💬 Message :", `\` -> \` ${message.content}`)
                     const msg = await channel.send({ embeds: [ embed ] });
 
@@ -93,14 +93,16 @@ client.on("messageCreate", async message => {
                             reaction.remove("❌")
                             db.delete(`ticket_${message.author.id}`)
                             db.subtract(`ticket_open`, 1)
-                            db.delete(`ticket_${message.author.id}_channel`)
-                            db.delete(`ticket_${channel.id}`)
-                            db.delete(`ticket_${channel.id}_message`)
+                            channel.setName(`close-${id_ticket}`)
 
                             const reponse2 = new MessageEmbed()
                                 .setColor(color)
                                 .setDescription(":gear: Votre ticket a été fermé par **" + user.username + "**.\n:warning: Merci de ne pas répondre à ce message !")
                             const userTicket = client.users.cache.get(db.get(`ticket_${reaction.message.channel.id}`)).send({ embeds: [ reponse2 ] })
+
+                            db.delete(`ticket_${message.author.id}_channel`)
+                            db.delete(`ticket_${channel.id}`)
+                            db.delete(`ticket_${channel.id}_message`)
 
                             const reponse = new MessageEmbed()
                                 .setColor(color)
@@ -140,7 +142,7 @@ client.on("messageCreate", async message => {
         if (db.get(`ticket_${message.channel.id}`) === null) return;
     
         try {
-            const userTicket = client.users.cache.get(db.get(`message.channel.id`));
+            const userTicket = client.users.cache.get(db.get(`ticket_${message.channel.id}`));
             
             if (message.content.length > 4096) return message.reply(":x: Votre message est trop lourd ! *(Moins de `4096` caractères !)*")
                         
