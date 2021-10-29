@@ -51,7 +51,7 @@ client.on("messageCreate", async message => {
     if (message.channel.type === "DM") {
         const erreur_image_send = new MessageEmbed()
             .setColor("RED")
-            .setDescription(":x: Pour envoyer des images, merci d'envoyer un lien **Discord** ([cdn.discord.com/..etc..](https://discord.com)")
+            .setDescription(":x: Pour envoyer des images, merci d'envoyer un lien **Discord** ([cdn.discord.com/..etc..](https://discord.com)).")
         if (!lettres.includes(message.content)) return message.reply({ embeds: [ erreur_image_send ] });
         
         if (db.get(`ticket_${message.author.id}`) === null) {
