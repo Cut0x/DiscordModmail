@@ -50,6 +50,8 @@ client.on("messageCreate", async message => {
      
     if (message.channel.type === "DM") {
         if (db.get(`ticket_${message.author.id}`) === null) {
+             if (message.content.length > 4096) return message.reply(":x: Votre message est trop lourd ! *(Moins de `4096` caractères !)*")
+            
             client.guilds.cache.get(guildID).channels.create(`ticket-${id_ticket}`, {
                 type: "GUILD_TEXT",
                 parent: parentID,
