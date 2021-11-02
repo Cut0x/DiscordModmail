@@ -18,8 +18,6 @@ const db = require("quick.db");
 client.sett = require("./Data/config");
 
 client.once("ready", async () => {
-    console.log(`Je suis prêt pour un total de ${db.get(`ticket_count`) ?? 0} ticket ouvert.`)
-
     client.user.setPresence({
         activities: [
             {
@@ -28,6 +26,10 @@ client.once("ready", async () => {
         ],
         status: 'dnd'
     });
+    
+    // db.delete("ticket_TonIdDiscord")
+    
+    console.log(`Je suis prêt pour un total de ${db.get(`ticket_count`) ?? 0} ticket ouvert.`)
 });
 
 client.login(client.sett.token);
