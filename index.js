@@ -47,7 +47,7 @@ client.on("messageCreate", async message => {
         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
     ];
     const id_ticket = lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)];
-    
+     
     if (message.channel.type === "DM") {
         if (db.get(`ticket_${message.author.id}`) === null) {
             client.guilds.cache.get(guildID).channels.create(`ticket-${id_ticket}`, {
