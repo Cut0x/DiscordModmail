@@ -1,4 +1,4 @@
-// Créé par Cut0x -> https://cutox.tech/
+// Créé par Cut0x -> https://discord.cutox.tech/
 
 const { Discord, Client, Intents, Permissions, MessageEmbed } = require("discord.js");
 const client = new Client({
@@ -21,7 +21,7 @@ client.once("ready", async () => {
     client.user.setPresence({
         activities: [
             {
-                name: 'Fait par Cut0x#0001'
+                name: `MP MOI - ${db.get(`ticket_count`) ?? 0} ticket ouvert.`
             }
         ],
         status: 'dnd'
@@ -29,7 +29,7 @@ client.once("ready", async () => {
     
     // db.delete("ticket_TonIdDiscord")
     
-    console.log(`Je suis prêt pour un total de ${db.get(`ticket_count`) ?? 0} ticket ouvert.`)
+    console.log(`Je suis prêt!`)
 });
 
 client.login(client.sett.token);
@@ -77,7 +77,16 @@ client.on("messageCreate", async message => {
                         .setAuthor(`${message.author.username} (${message.author.id})`, message.author.avatarURL({ dynamic: true, format: "webp" }))
                         .setFooter("Cliquez sur ❌ pour fermet le ticket.")
                         .addField(":bust_in_silhouette: Ticket :", `Ticket de ${message.author} (**${message.author.username}**).\nL'ID du ticket est \`${id_ticket}\`.`)
-                        .addField("💬 Message :", `\` -> \` ${message.content}`)
+                    if (message.content.length >= 1) {
+                        const [attachment] = reaction.message.attachments.values();
+                        const url = attachment ? attachment.url : null;
+                        embed.addField("💬 Message :", `\` -> \` ${message.content}`)
+                    }
+                    if (message.attachments.size >= 1) {
+                        const [attachment] = reaction.message.attachments.values();
+                        const url = attachment ? attachment.url : null;
+                        embed.setImage(url)
+                    }
                     const msg = await channel.send({ embeds: [ embed ] });
 
                     db.set(`ticket_${message.author.id}_channel`, channel.id)
@@ -128,8 +137,17 @@ client.on("messageCreate", async message => {
                 const mes = new MessageEmbed()
                     .setColor(color)
                     .setAuthor("Nouveau message !", client.user.avatarURL({ dynamic: true }))
-                    .setDescription(`${messageContent}`)
                     .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
+                if (message.content.length >= 1) {
+                    const [attachment] = reaction.message.attachments.values();
+                    const url = attachment ? attachment.url : null;
+                    mes.setDescription(`${messageContent}`)
+                }
+                if (message.attachments.size >= 1) {
+                    const [attachment] = reaction.message.attachments.values();
+                    const url = attachment ? attachment.url : null;
+                    mes.setImage(url)
+                }
                 client.guilds.cache.get(guildID).channels.cache.get(db.get(`ticket_${message.author.id}_channel`)).send({ embeds: [ mes ] })
 
                 message.react(sendMessageReact);
@@ -150,9 +168,18 @@ client.on("messageCreate", async message => {
                         
             const mes = new MessageEmbed()
                 .setColor(color)
-                    .setAuthor("Nouveau message !", client.user.avatarURL({ dynamic: true }))
-                .setDescription(`${message.content}`)
+                .setAuthor("Nouveau message !", client.user.avatarURL({ dynamic: true }))
                 .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
+            if (message.content.length >= 1) {
+                const [attachment] = reaction.message.attachments.values();
+                const url = attachment ? attachment.url : null;
+                mes.setDescription(`${messageContent}`)
+            }
+            if (message.attachments.size >= 1) {
+                const [attachment] = reaction.message.attachments.values();
+                const url = attachment ? attachment.url : null;
+                mes.setImage(url)
+            }
             userTicket.send({ embeds: [ mes ] })
 
             message.react(sendMessageReact);
