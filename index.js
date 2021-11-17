@@ -78,12 +78,12 @@ client.on("messageCreate", async message => {
                         .setFooter("Cliquez sur ❌ pour fermet le ticket.")
                         .addField(":bust_in_silhouette: Ticket :", `Ticket de ${message.author} (**${message.author.username}**).\nL'ID du ticket est \`${id_ticket}\`.`)
                     if (message.content.length >= 1) {
-                        const [attachment] = reaction.message.attachments.values();
+                        const [attachment] = message.attachments.values();
                         const url = attachment ? attachment.url : null;
                         embed.addField("💬 Message :", `\` -> \` ${message.content}`)
                     }
                     if (message.attachments.size >= 1) {
-                        const [attachment] = reaction.message.attachments.values();
+                        const [attachment] = message.attachments.values();
                         const url = attachment ? attachment.url : null;
                         embed.setImage(url)
                     }
@@ -139,12 +139,12 @@ client.on("messageCreate", async message => {
                     .setAuthor("Nouveau message !", client.user.avatarURL({ dynamic: true }))
                     .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
                 if (message.content.length >= 1) {
-                    const [attachment] = reaction.message.attachments.values();
+                    const [attachment] = message.attachments.values();
                     const url = attachment ? attachment.url : null;
                     mes.setDescription(`${messageContent}`)
                 }
                 if (message.attachments.size >= 1) {
-                    const [attachment] = reaction.message.attachments.values();
+                    const [attachment] = message.attachments.values();
                     const url = attachment ? attachment.url : null;
                     mes.setImage(url)
                 }
@@ -171,12 +171,12 @@ client.on("messageCreate", async message => {
                 .setAuthor("Nouveau message !", client.user.avatarURL({ dynamic: true }))
                 .setFooter(message.author.tag, message.author.avatarURL({ dynamic: true }))
             if (message.content.length >= 1) {
-                const [attachment] = reaction.message.attachments.values();
+                const [attachment] = message.attachments.values();
                 const url = attachment ? attachment.url : null;
                 mes.setDescription(`${messageContent}`)
             }
             if (message.attachments.size >= 1) {
-                const [attachment] = reaction.message.attachments.values();
+                const [attachment] = message.attachments.values();
                 const url = attachment ? attachment.url : null;
                 mes.setImage(url)
             }
