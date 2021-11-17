@@ -111,7 +111,7 @@ client.on("messageCreate", async message => {
                         if (reaction.emoji.name === "❌") {
                             reaction.remove("❌")
                             db.delete(`ticket_${message.author.id}`)
-                            db.subtract(`ticket_open`, 1)
+                            db.subtract(`ticket_count`, 1)
                             client.user.setPresence({
                                 activities: [
                                     {
