@@ -68,7 +68,15 @@ client.on("messageCreate", async message => {
             }).then(async channel => {
                 try {
                     db.set(`ticket_${message.author.id}`, true)
-                    db.add(`ticket_open`, 1)
+                    db.add(`ticket_count`, 1)
+                    client.user.setPresence({
+                        activities: [
+                            {
+                                name: `MP MOI - ${db.get(`ticket_count`) ?? 0} ticket ouvert.`
+                            }
+                        ],
+                        status: 'dnd'
+                    });
                     
                     const embed = new MessageEmbed()
                         .setColor(color)
@@ -104,6 +112,14 @@ client.on("messageCreate", async message => {
                             reaction.remove("❌")
                             db.delete(`ticket_${message.author.id}`)
                             db.subtract(`ticket_open`, 1)
+                            client.user.setPresence({
+                                activities: [
+                                    {
+                                        name: `MP MOI - ${db.get(`ticket_count`) ?? 0} ticket ouvert.`
+                                    }
+                                ],
+                                status: 'dnd'
+                            });
                             channel.setName(`close-${id_ticket}`)
 
                             const reponse2 = new MessageEmbed()
