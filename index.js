@@ -36,6 +36,7 @@ client.login(client.sett.token);
 
 client.on("messageCreate", async message => {
     if (message.author.bot) return;
+    const messageContent = message.content;
     
     const parentID = "ID_CATEGORIE";
     const guildID = "ID_SERVEUR";
@@ -146,8 +147,6 @@ client.on("messageCreate", async message => {
         } else {
 
             if (message.content.length > 4096) return message.reply(":x: Votre message est trop lourd ! *(Moins de `4096` caractères !)*")
-
-            const messageContent = message.content;
 
             try {                
                 const mes = new MessageEmbed()
