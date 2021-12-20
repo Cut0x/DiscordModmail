@@ -98,6 +98,8 @@ client.on("messageCreate", async message => {
                     }
                     const msg = await channel.send({ embeds: [ embed ] });
 
+                    msg.pin().catch(error => {});
+
                     db.set(`ticket_${message.author.id}_channel`, channel.id)
                     db.set(`ticket_${channel.id}`, message.author.id)
                     db.set(`ticket_${channel.id}_message`, msg.id)
