@@ -12,7 +12,7 @@ Modifie avec les informations de ton bot.
 module.export = {
   token: "token de ton bot",
   prefix: "!"
-}
+};
 ```
 
 # Comment sa marche ?
