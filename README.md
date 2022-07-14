@@ -1,5 +1,5 @@
 # DiscordModmail
-Bot ticket par les messages privé
+Bot support de ticket par les messages privé
 
 # Modules
 ```
@@ -17,3 +17,9 @@ module.export = {
 
 # Comment sa marche ?
 Il suffit d'envoyer un message privé au bot et il créera un ticket sur votre serveur.
+
+# Infos
+Le code sera optimisé et modifier pour des raisons qui, je pense, sont assez visible xd (le code fait peur).
+
+
+[Twitter](https://twitter.com/Cut0x_)
