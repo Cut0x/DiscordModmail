@@ -47,8 +47,12 @@ client.on("messageCreate", async message => {
         "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
     ];
-    const id_ticket = lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)]+lettres[Math.floor(Math.random() * lettres.length)];
-     
+    let id_ticket = "";
+    
+    for (let i = 0; i <= 6; i++) {
+        id_ticket += lettres[Math.floor(Math.random() * lettres.length)]
+    };
+    
     if (message.channel.type === "DM") {
         if (db.get(`ticket_${message.author.id}`) === null) {
              if (message.content.length > 4000) return message.reply(":x: Votre message est trop lourd ! *(Moins de `4000` caractères !)*")
